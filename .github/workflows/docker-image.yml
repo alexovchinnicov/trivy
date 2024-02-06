@@ -2,7 +2,7 @@ name: Docker Image CI
 
 on:
   schedule:
-  - cron: "0/10 0 * * *"
+  - cron: "*/3 0 * * *"
   push:
     branches: [ "main" ]
   pull_request:
@@ -22,11 +22,7 @@ jobs:
         username: ${{ secrets.DOCKER_LOGIN }}
         password: ${{ secrets.DOCKER_PASS }}
     - uses: actions/checkout@v3
- #   - name: Build the Docker image
- #     run: docker build . --file Dockerfile --tag $LOGIN/trivy:$(date +%s)
     - name: Set latest tag for the Docker image
       run: docker build . --file Dockerfile --tag $LOGIN/trivy:latest
-  #  - name: Push tagged image to docker.io
-  #    run: docker push $LOGIN/trivy:$(date +%s)
     - name: Push latest image to docker.io
       run: docker push $LOGIN/trivy:latest
